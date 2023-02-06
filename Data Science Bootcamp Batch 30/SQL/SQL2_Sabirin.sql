@@ -6,13 +6,13 @@
 -- Menampilkan informasi nama, email, bulan lahir, dan tanggal
 -- registrasi dari pelanggan yang memenuhi kriteria tersebut!
 SELECT nama,
-	   email,
-	   bulan_lahir,
-	   tanggal_registrasi
+       email,
+       bulan_lahir,
+       tanggal_registrasi
   FROM rakamin_customer
  WHERE (email LIKE '%yahoo%' OR email LIKE '%roketmail%')
-	   AND tanggal_registrasi BETWEEN '2012-01-01' AND '2012-03-31'
-	   AND bulan_lahir IN ('Januari', 'Februari', 'Maret');
+       AND tanggal_registrasi BETWEEN '2012-01-01' AND '2012-03-31'
+       AND bulan_lahir IN ('Januari', 'Februari', 'Maret');
 
 -- Soal 2
 -- Tim Business ingin menganalisis perilaku spending dari para
@@ -26,13 +26,13 @@ SELECT nama,
 -- setelah PPN, dan spending_bucket sesuai kriteria di atas!
 -- Mengurutkan berdasarkan harga setelah PPN dari yang terbesar!
 SELECT id_order,
-	   id_pelanggan,
-	   harga,
-	   harga * (1 + ppn) AS harga_setelah_ppn,
-	   CASE WHEN harga * (1 + ppn) > 50000 THEN 'HIGH'
-			WHEN harga * (1 + ppn) > 20000 THEN 'MEDIUM'
-			ELSE 'LOW'
-	   END AS spending_bucket
+       id_pelanggan,
+       harga,
+       harga * (1 + ppn) AS harga_setelah_ppn,
+       CASE WHEN harga * (1 + ppn) > 50000 THEN 'HIGH'
+            WHEN harga * (1 + ppn) > 20000 THEN 'MEDIUM'
+            ELSE 'LOW'
+       END AS spending_bucket
   FROM rakamin_order
  ORDER BY harga_setelah_ppn DESC;
 
@@ -45,8 +45,8 @@ SELECT id_order,
 -- sebelum PPN!
 -- Mengurutkan berdasarkan jumlah pendapatan dari yang tertinggi!
 SELECT id_merchant,
-	   COUNT(id_order) AS jumlah_order,
-	   SUM(harga) AS jumlah_pendapatan_sebelum_ppn
+       COUNT(id_order) AS jumlah_order,
+       SUM(harga) AS jumlah_pendapatan_sebelum_ppn
   FROM rakamin_order
  GROUP BY id_merchant
  ORDER BY jumlah_pendapatan_sebelum_ppn DESC;
@@ -58,7 +58,7 @@ SELECT id_merchant,
 -- frekuensi di atas 10!
 -- Mengurutkan berdasarkan frekuensi dari yang terbanyak!
 SELECT metode_bayar,
-	   COUNT(id_order) AS frekuensi_penggunaan
+       COUNT(id_order) AS frekuensi_penggunaan
   FROM rakamin_order
  GROUP BY metode_bayar
 HAVING COUNT(id_order) > 10
@@ -72,11 +72,11 @@ HAVING COUNT(id_order) > 10
 -- pelanggan di suatu kota.
 -- Menampilkan dua angka tersebut!
 SELECT MIN(jumlah_pelanggan) AS populasi_pelanggan_terkecil,
-	   MAX(jumlah_pelanggan) AS populasi_pelanggan_terbesar
+       MAX(jumlah_pelanggan) AS populasi_pelanggan_terbesar
   FROM
-      (SELECT kota, COUNT(id_pelanggan) AS jumlah_pelanggan
-         FROM rakamin_customer_address
-        GROUP BY kota) AS populasi_pelanggan;
+       (SELECT kota, COUNT(id_pelanggan) AS jumlah_pelanggan
+       FROM rakamin_customer_address
+       GROUP BY kota) AS populasi_pelanggan;
 
 -- Soal 6
 -- Tim Payment ingin memperdalam analisis terhadap metode pembayaran,
@@ -85,11 +85,11 @@ SELECT MIN(jumlah_pelanggan) AS populasi_pelanggan_terkecil,
 -- Menampilkan nama merchant, metode pembayaran, dan frekuensi
 -- penggunaan!
 SELECT rm.nama_merchant,
-	   ro.metode_bayar,
-	   COUNT(id_order) AS frekuensi_penggunaan
+       ro.metode_bayar,
+       COUNT(id_order) AS frekuensi_penggunaan
   FROM rakamin_order AS ro
   JOIN rakamin_merchant AS rm
-	ON ro.id_merchant = rm.id_merchant
+       ON ro.id_merchant = rm.id_merchant
  GROUP BY rm.nama_merchant, ro.metode_bayar
  ORDER BY rm.nama_merchant, frekuensi_penggunaan DESC;
 	
@@ -99,16 +99,16 @@ SELECT rm.nama_merchant,
 -- Menampilkan informasi id_pelanggan, total kuantitas, nama, dan
 -- email dari pelanggan yang memenuhi kriteria tersebut!
 WITH cte_order AS (
-	 SELECT id_pelanggan,
-		    SUM(kuantitas) AS total_kuantitas
-	   FROM rakamin_order
-	  GROUP BY 1
-	 HAVING SUM(kuantitas) > 5
+	SELECT id_pelanggan,
+               SUM(kuantitas) AS total_kuantitas
+	  FROM rakamin_order
+	 GROUP BY 1
+	HAVING SUM(kuantitas) > 5
 )
 SELECT co.id_pelanggan,
-	   co.total_kuantitas,
-	   rc.nama,
-	   rc.email
+       co.total_kuantitas,
+       rc.nama,
+       rc.email
   FROM cte_order AS co
   JOIN rakamin_customer AS rc
     ON co.id_pelanggan = rc.id_pelanggan
