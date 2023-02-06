@@ -64,18 +64,18 @@ UPDATE rakamin_customer_address_tangerang
 -- id_alamat: 101, id_pelanggan: 70, alamat: Ciledug,
 -- kolom kota dan provinsi mengikuti baris-baris lainnya.
 INSERT INTO rakamin_customer_address_tangerang (
-	   id_alamat,
-	   id_pelanggan,
-	   alamat,
-	   kota,
-	   provinsi
+       id_alamat,
+       id_pelanggan,
+       alamat,
+       kota,
+       provinsi
 )
 VALUES (
-	   101,
-	   70,
-	   'Ciledug',
-	   'Tangerang',
-	   'Banten'
+       101,
+       70,
+       'Ciledug',
+       'Tangerang',
+       'Banten'
 );
 
 -- Soal 8
